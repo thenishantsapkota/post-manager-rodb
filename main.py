@@ -49,7 +49,7 @@ async def post_pathibhara():
     print(data)
 
 
-@aiocron.crontab("* * * * *")
+@aiocron.crontab("15 6 * * *")
 async def post_gold_prices():
     images = [await generate_gold_prices()]
     data = await post_images(
