@@ -22,12 +22,31 @@ FACEBOOK_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID")
 app = FastAPI()
 
 
+def retry_cron_job(cron_expression, max_retries=3, retry_interval=5):
+    def decorator(func):
+        async def wrapper(*args, **kwargs):
+            retries = 0
+            while retries < max_retries:
+                try:
+                    await func(*args, **kwargs)
+                    break
+                except Exception as e:
+                    print(f"Error in cron job: {e}")
+                    retries += 1
+                    await asyncio.sleep(retry_interval)
+
+        aiocron.crontab(cron_expression)(wrapper)
+        return wrapper
+
+    return decorator
+
+
 @app.get("/")
 def hello():
     return {"hello": "world"}
 
 
-@aiocron.crontab("15 2 * * *")
+@retry_cron_job("15 2 * * *")
 async def post_rashifal():
     images = [
         await generate_template(image)
@@ -41,7 +60,7 @@ async def post_rashifal():
     print(data)
 
 
-@aiocron.crontab("15 0 * * *")
+@retry_cron_job("15 0 * * *")
 async def post_pathibhara():
     images = [convert_to_bytes("src/images/pathibhara.png")]
     data = await post_images(FACEBOOK_PAGE_ID, "श्री पाथिभरा माताकी जय । <3", images)
@@ -49,7 +68,7 @@ async def post_pathibhara():
     print(data)
 
 
-@aiocron.crontab("15 6 * * *")
+@retry_cron_job("15 6 * * *")
 async def post_gold_prices():
     images = [await generate_gold_prices()]
     data = await post_images(
