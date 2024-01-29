@@ -2,8 +2,9 @@ import aiohttp
 from bs4 import BeautifulSoup
 from src.rashifal.rashifal_variables import rashifal_map, Rashifal, font
 from PIL import Image, ImageDraw
+from cachetools import TTLCache
 
-cache = {}
+cache = TTLCache(maxsize=100, ttl=3600)
 
 
 def add_newline(string: str, number_of_words: int = 5) -> str:
