@@ -35,9 +35,6 @@ def draw_text(image: Image, x, y, content: str):
 async def get_rashifal(
     url: str = "https://www.hamropatro.com/rashifal",
 ) -> Rashifal | None:
-    if url in cache:
-        return cache[url]
-
     print("Getting rashifal!")
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
