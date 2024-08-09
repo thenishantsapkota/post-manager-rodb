@@ -14,7 +14,7 @@ async def get_gold_prices(url: str = BASE_URL) -> GoldPrice:
 
         prices = data.get(str(date.today()))
         if not prices:
-            prices = data[list(data)[-1]]
+            prices = data[list(data)[0]]
 
         return GoldPrice(**prices)
 
