@@ -3,7 +3,10 @@ from datetime import date, timedelta
 from src.gold.gold_variables import GoldPrice, font
 from PIL import Image, ImageDraw
 
-BASE_URL = "https://api.nepalipatro.com.np/v3/bullions?from-date=2023-6-08"
+# Get yesterday's date
+yesterday = date.today() - timedelta(days=1)
+
+BASE_URL = f"https://api.nepalipatro.com.np/v3/bullions?from-date={yesterday.strftime('%Y-%m-%d')}"
 
 
 async def get_gold_prices(url: str = BASE_URL) -> GoldPrice:
