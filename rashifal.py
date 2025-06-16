@@ -12,6 +12,7 @@ from src.rashifal.rashifal_variables import (
 
 FACEBOOK_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID")
 
+
 async def post_rashifal():
     images = [
         await generate_template(image)
@@ -19,7 +20,10 @@ async def post_rashifal():
     ]
     rashifal = await get_rashifal()
 
-    data = await post_images(FACEBOOK_PAGE_ID, f"{rashifal.date} को ताजा राशिफल ।", images)
+    data = await post_images(
+        FACEBOOK_PAGE_ID, f"{rashifal.date} को ताजा राशिफल ।", images
+    )
     print(data)
+
 
 asyncio.run(post_rashifal())

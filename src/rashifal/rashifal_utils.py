@@ -24,8 +24,8 @@ def draw_text(image: Image, x, y, content: str):
     draw = ImageDraw.Draw(image)
     draw.text(
         (x, y),
-        add_newline(content, 7),
-        (0, 0, 0),
+        add_newline(content, 6),
+        (255, 255, 255),
         font,
         anchor="mm",
         align="center",

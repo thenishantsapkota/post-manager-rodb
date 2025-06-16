@@ -6,7 +6,7 @@ template_two = Image.open("src/images/rashifal_2.png")
 template_three = Image.open("src/images/rashifal_3.png")
 template_four = Image.open("src/images/rashifal_4.png")
 
-font = ImageFont.truetype("src/fonts/hind.ttf", 80)
+font = ImageFont.truetype("src/fonts/noto_sans.ttf", 110)
 
 
 @dataclass
